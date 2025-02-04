@@ -39,6 +39,8 @@ lerna-debug.log*
 .env
 .env.development.local
 .env.test.local
+.env.dev
+.env.test
 .env.production.local
 .env.local
 
@@ -54,6 +56,3 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
-
-# db
-db.sqlite
