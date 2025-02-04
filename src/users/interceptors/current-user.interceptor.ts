@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from '../users.service';
 
-// this interceptor is needed to put the current user in the request object and then use the decorator CurrentUserto get it
+// this interceptor is needed to put the current user in the request object and then use the decorator CurrentUser to get it
 @Injectable()
 export class CurrentUserInterceptor implements NestInterceptor {
   constructor(private usersService: UsersService) {}
