@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { ReportsModule } from './reports/reports.module';
 import { User } from './users/user.entity';
 import { Report } from './reports/report.entity';
+import { AppDataSource } from './ormconfig';
 const cookieSession = require('cookie-session');
 
 @Module({
@@ -16,23 +17,7 @@ const cookieSession = require('cookie-session');
       isGlobal: true,
       envFilePath: `.env.${process.env.NODE_ENV}`
     }),
-    TypeOrmModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => {
-        return {
-          type: 'sqlite',
-          database: config.get<string>('DB_NAME'),
-          entities: [User, Report],
-          synchronize: true, // only for dev environment
-        }
-      }
-    }),
-    // TypeOrmModule.forRoot({
-    //   type: 'sqlite',
-    //   database: 'db.sqlite',
-    //   entities: [User, Report],
-    //   synchronize: true, // only for dev environment
-    // }),
+    TypeOrmModule.forRoot(AppDataSource.options),
     UsersModule, 
     ReportsModule
   ],
@@ -48,10 +33,13 @@ const cookieSession = require('cookie-session');
   ],
 })
 export class AppModule {
+  constructor(
+    private configService: ConfigService
+  ) {}
   // global middleware cookieSession is applied to all requests
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(cookieSession({
-      keys: ['shortly-space-orange-strong']
+      keys: [this.configService.get('COOKIE_KEY')]
     })).forRoutes('*');
   }
 }
