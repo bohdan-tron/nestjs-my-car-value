@@ -1,6 +1,8 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 
-const dbConfig = { synchronize: false } as DataSourceOptions;
+const dbConfig = {
+  synchronize: false,
+} as DataSourceOptions;
 
 switch (process.env.NODE_ENV) {
   case 'dev':
@@ -8,6 +10,8 @@ switch (process.env.NODE_ENV) {
       type: 'sqlite',
       database: 'db.sqlite',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      migrations: [__dirname + '/migrations/*.ts'],
+      migrationsTableName: 'migrations'
     });
     break;
   case 'test':
@@ -15,6 +19,9 @@ switch (process.env.NODE_ENV) {
       type: 'sqlite',
       database: 'test.sqlite',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      migrations: [__dirname + '/migrations/*.ts'],
+      migrationsTableName: 'migrations',
+      migrationsRun: true
     });
     break;
   case 'production':
