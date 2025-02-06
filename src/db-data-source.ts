@@ -2,7 +2,6 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 
 const dbConfig = {
   synchronize: false,
-  migrations: [__dirname + '/migrations/*.ts'],
   migrationsTableName: 'migrations',
 } as DataSourceOptions;
 
@@ -11,7 +10,8 @@ switch (process.env.NODE_ENV) {
     Object.assign(dbConfig, {
       type: 'sqlite',
       database: 'db.sqlite',
-      entities: [__dirname + '/**/*.entity{.ts,.js}']
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      migrations: [__dirname + '/migrations/*.ts'],
     });
     break;
   case 'test':
@@ -19,6 +19,7 @@ switch (process.env.NODE_ENV) {
       type: 'sqlite',
       database: 'test.sqlite',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      migrations: [__dirname + '/migrations/*.ts'],
       migrationsRun: true
     });
     break;
@@ -26,8 +27,9 @@ switch (process.env.NODE_ENV) {
     Object.assign(dbConfig, {
       type: 'postgres',
       url: process.env.DATABASE_URL,
-      migrationsRun: true,
       entities: [__dirname + '/**/*.entity.js'],
+      migrations: [__dirname + '/migrations/*.js'],
+      migrationsRun: true,
       ssl: {
         rejectUnauthorized: false
       }
