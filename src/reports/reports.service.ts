@@ -17,10 +17,19 @@ export class ReportsService {
       .select('AVG(price)', 'price')
       .where('make = :make', { make })
       .andWhere('model = :model', { model })
-      .andWhere('lng - :lng BETWEEN -5 AND 5', { lng })
-      .andWhere('lat - :lat BETWEEN -5 AND 5', { lat })
-      .andWhere('year - :year BETWEEN -3 AND 3', { year })
-      .andWhere('approved IS TRUE')
+      .andWhere('lng BETWEEN :lngMin AND :lngMax', { 
+        lngMin: lng - 5,
+        lngMax: lng + 5 
+      })
+      .andWhere('lat BETWEEN :latMin AND :latMax', { 
+        latMin: lat - 5,
+        latMax: lat + 5 
+      })
+      .andWhere('year BETWEEN :yearMin AND :yearMax', {
+        yearMin: year - 3,
+        yearMax: year + 3
+      })
+      .andWhere('approved = :approved', { approved: true })
       .orderBy('ABS(mileage - :mileage)', 'DESC')
       .setParameters({ mileage })
       .limit(3)
