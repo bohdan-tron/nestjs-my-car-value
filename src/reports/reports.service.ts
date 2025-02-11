@@ -30,6 +30,7 @@ export class ReportsService {
         yearMax: year + 3
       })
       .andWhere('approved = :approved', { approved: true })
+      .groupBy('mileage')
       .orderBy('ABS(mileage - :mileage)', 'DESC')
       .setParameters({ mileage })
       .limit(3)
