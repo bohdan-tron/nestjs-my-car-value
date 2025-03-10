@@ -32,9 +32,7 @@ switch (process.env.NODE_ENV) {
       migrationsRun: true,
       ssl: {
         rejectUnauthorized: false
-      },
-      logging: true,
-      logger: 'advanced-console'
+      }
     })
     break;
   default:
